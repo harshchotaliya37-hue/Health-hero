@@ -1,1 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedBuddy — Your Medical AI Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── CSS Variables ────────────────────────────────── */
+    :root {
+      --bg: #f5f2eb;
+      --surface: #ffffff;
+      --surface2: #faf8f4;
+      --border: #e8e2d9;
+      --text: #1a1714;
+      --text-muted: #7a7068;
+      --accent: #c84b31;
+      --accent-light: #f9ede9;
+      --accent-hover: #a83b24;
+      --green: #2d6a4f;
+      --green-light: #e8f5ef;
+      --amber: #b45309;
+      --amber-light: #fef3c7;
+      --blue: #1d4ed8;
+      --blue-light: #eff6ff;
+      --shadow: 0 2px 16px rgba(26,23,20,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,23,20,0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
 
+    /* ── Reset & Base ────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ──────────────────────────────────────── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.45rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .logo-text span { color: var(--accent); }
+    .header-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .db-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .db-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ── Hero ────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #1a1714 0%, #2d2520 100%);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(200,75,49,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(200,75,49,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(200,75,49,0.2);
+      border: 1px solid rgba(200,75,49,0.4);
+      color: #f4a490;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: #f4a490;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 580px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat .val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    .hero-stat .lbl {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Main Layout ─────────────────────────────────── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* ── Upload Panel ────────────────────────────────── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .panel-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.02em;
+    }
+    .panel-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: var(--surface2);
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .upload-zone h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .upload-zone p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .file-types {
+      display: flex; gap: 6px; justify-content: center; margin-top: 0.8rem; flex-wrap: wrap;
+    }
+    .file-chip {
+      background: var(--border);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      color: var(--text-muted); font-size: 0.8rem;
+      margin: 1rem 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* Text input */
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      resize: vertical;
+      min-height: 120px;
+      background: var(--surface2);
+      color: var(--text);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--text-muted); }
+
+    /* Form fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    input[type="number"], select {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      background: var(--surface2);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]:focus, select:focus { border-color: var(--accent); }
+
+    /* Submit button */
+    .btn-analyze {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .btn-analyze:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(200,75,49,0.35); }
+    .btn-analyze:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Selected file indicator */
+    .file-selected {
+      background: var(--green-light);
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: var(--green);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 0.5rem;
+    }
+    .file-selected.show { display: flex; }
+
+    /* ── Loading ──────────────────────────────────────── */
+    .loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .loading.show { display: flex; }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-steps { display: flex; flex-direction: column; gap: 8px; }
+    .loading-step {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .loading-step.active { color: var(--accent); font-weight: 600; }
+    .loading-step.done { color: var(--green); }
+
+    /* ── Results ──────────────────────────────────────── */
+    .results {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeUp 0.4s ease;
+    }
+    .results.show { display: flex; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Summary card */
+    .summary-card {
+      background: linear-gradient(135deg, #1a1714, #2d2520);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-card::before {
+      content: '💊';
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+      font-size: 2.5rem;
+      opacity: 0.15;
+    }
+    .summary-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+    .summary-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    /* Result section */
+    .result-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .result-section-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .section-icon.red { background: var(--accent-light); }
+    .section-icon.green { background: var(--green-light); }
+    .section-icon.amber { background: var(--amber-light); }
+    .section-icon.blue { background: var(--blue-light); }
+    .result-section-header h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .result-section-body {
+      padding: 1.2rem 1.5rem;
+    }
+
+    /* Diagnosis */
+    .diagnosis-condition {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .diagnosis-text {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    /* Comparison */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .compare-box {
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+    .compare-box.original {
+      background: #fff8f6;
+      border: 1px solid #fce4de;
+    }
+    .compare-box.simplified {
+      background: var(--green-light);
+      border: 1px solid #86efac;
+    }
+    .compare-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .compare-box.original .compare-label { color: var(--accent); }
+    .compare-box.simplified .compare-label { color: var(--green); }
+
+    /* Medication table */
+    .med-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .med-table th {
+      background: var(--surface2);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .med-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .med-table tr:last-child td { border-bottom: none; }
+    .med-table tr:nth-child(even) td { background: var(--surface2); }
+    .med-name { font-weight: 600; color: var(--text); }
+
+    /* Side effects */
+    .alert-list { display: flex; flex-direction: column; gap: 10px; }
+    .alert-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px;
+      background: var(--amber-light);
+      border-radius: 8px;
+      border-left: 3px solid var(--amber);
+    }
+    .alert-dot {
+      width: 20px; height: 20px;
+      background: var(--amber);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .alert-text { font-size: 0.88rem; line-height: 1.5; }
+    .doctor-call {
+      margin-top: 12px;
+      padding: 12px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #991b1b;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+
+    /* Checklist */
+    .checklist-section { margin-bottom: 1.2rem; }
+    .checklist-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .checklist-items { display: flex; flex-direction: column; gap: 6px; }
+    .checklist-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.88rem;
+    }
+    .checkbox {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .checkbox:hover { border-color: var(--green); }
+    .checkbox.checked {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      font-size: 0.7rem;
+    }
+
+    /* Processing info */
+    .process-meta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .meta-item { display: flex; align-items: center; gap: 5px; }
+
+    /* Error */
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      color: #991b1b;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .error-box.show { display: block; }
+
+    /* ── Right panel placeholder ─────────────────────── */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .main { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .hero { padding: 3rem 1.5rem 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🏥</div>
+      <span class="logo-text">Med<span>Buddy</span></span>
+    </div>
+    <span class="header-badge">IAR Udaan Hackathon 2026</span>
+    <a href="/api/database/download" class="db-btn">
+      📊 Download Database
+    </a>
+  </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-tag">⚕️ AI-Powered Medical Simplifier</div>
+  <h1>The AI that sits between<br/>a patient and <em>confusion</em></h1>
+  <p>Upload your prescription or discharge summary and instantly get a plain-language explanation — no medical degree required.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="val">2min</div>
+      <div class="lbl">Avg doctor visit in India</div>
+    </div>
+    <div class="hero-stat">
+      <div class="val">$850M</div>
+      <div class="lbl">Abridge valuation (US)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="val">0</div>
+      <div class="lbl">Tools bridging this gap in India</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Main Content ────────────────────────────────────────────────────────── -->
+<div class="main">
+
+  <!-- Left: Upload Form -->
+  <div>
+    <div class="panel">
+      <div class="panel-title">Upload Medical Document</div>
+      <div class="panel-sub">Prescription, discharge summary, or paste text directly</div>
+
+      <!-- Upload Zone -->
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.txt" />
+        <span class="upload-icon">📄</span>
+        <h3>Drop your document here</h3>
+        <p>or click to browse files</p>
+        <div class="file-types">
+          <span class="file-chip">PDF</span>
+          <span class="file-chip">JPG</span>
+          <span class="file-chip">PNG</span>
+          <span class="file-chip">TXT</span>
+        </div>
+      </div>
+
+      <div class="file-selected" id="fileSelected">
+        ✅ <span id="fileSelectedName"></span>
+      </div>
+
+      <div class="divider">OR PASTE TEXT DIRECTLY</div>
+
+      <textarea id="textInput" placeholder="Paste prescription or discharge summary text here..."></textarea>
+
+      <!-- Patient Info -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ageInput">Patient Age</label>
+          <input type="number" id="ageInput" placeholder="e.g. 45" min="0" max="120" />
+        </div>
+        <div class="form-group">
+          <label for="langSelect">Output Language</label>
+          <select id="langSelect">
+            <option value="english">English</option>
+            <option value="hindi">हिंदी (Hindi)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button class="btn-analyze" id="analyzeBtn" onclick="analyzeDocument()">
+        🔍 Analyze My Document
+      </button>
+    </div>
+  </div>
+
+  <!-- Right: Results -->
+  <div class="right-col">
+
+    <!-- Loading state -->
+    <div class="panel loading" id="loadingPanel">
+      <div class="spinner"></div>
+      <strong style="margin-bottom:1rem;">Analyzing your document…</strong>
+      <div class="loading-steps">
+        <div class="loading-step" id="step1">📄 Extracting text from document…</div>
+        <div class="loading-step" id="step2">🧠 Running AI analysis…</div>
+        <div class="loading-step" id="step3">💊 Structuring medication schedule…</div>
+        <div class="loading-step" id="step4">📊 Saving to database…</div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results" id="resultsPanel">
+
+      <!-- One-line summary -->
+      <div class="summary-card">
+        <div class="summary-label">📢 Family Summary</div>
+        <div class="summary-text" id="oneSummary">—</div>
+      </div>
+
+      <!-- Diagnosis -->
+      <div class="result-section">
+        <div class="result-section-header">
+          <div class="section-icon red">🩺</div>
+          <h3>Plain-Language Diagnosis</h3>
+        </div>
+        <div class="result-section-body">
+          <div class="diagnosis-condition" id="diagCondition"></div>
+          <div class="diagnosis-text" id="diagText"></div>
+        </div>
+        <div class="compare-grid" style="padding: 0 1.5rem 1.2rem;">
+          <div class="compare-box original">
+            <div class="compare-label">🔬 Medical Jargon</div>
+            <div id="compareOriginal" style="font-size:0.82rem; line-height:1.6; color:#555;">—</div>
+          </div>
+          <div class="compare-box simplified">
+            <div class="compare-label">💬 Plain Language</div>
+            <div id="compareSimplified" style="font-size:0.82rem; line-height:1.6;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medication Schedule -->
+      <div class="result-section">
+        <div class="result-section-header">
+          <div class="section-icon green">💊</div>
+          <h3>Medication Schedule</h3>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="med-table" id="medTable">
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Dosage</th>
+                <th>Timing</th>
+                <th>Frequency</th>
+                <th>Duration</th>
+                <th>Instructions</th>
+              </tr>
+            </thead>
+            <tbody id="medTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Side Effect Alerts -->
+      <div class="result-section">
+        <div class="result-section-header">
+          <div class="section-icon amber">⚠️</div>
+          <h3>Side Effect Alerts</h3>
+        </div>
+        <div class="result-section-body">
+          <div class="alert-list" id="alertList"></div>
+          <div class="doctor-call" id="doctorCall" style="display:none;">
+            🚨 <span id="doctorCallText"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Follow-up Checklist -->
+      <div class="result-section">
+        <div class="result-section-header">
+          <div class="section-icon blue">✅</div>
+          <h3>Follow-Up Checklist</h3>
+        </div>
+        <div class="result-section-body" id="checklistBody"></div>
+      </div>
+
+      <!-- Meta info -->
+      <div class="process-meta" id="processMeta"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── File upload interactions ─────────────────────────────────────────────
+  const fileInput = document.getElementById('fileInput');
+  const uploadZone = document.getElementById('uploadZone');
+  const fileSelected = document.getElementById('fileSelected');
+  const fileSelectedName = document.getElementById('fileSelectedName');
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) {
+      fileSelectedName.textContent = fileInput.files[0].name;
+      fileSelected.classList.add('show');
+    }
+  });
+
+  uploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+  });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f) {
+      const dt = new DataTransfer();
+      dt.items.add(f);
+      fileInput.files = dt.files;
+      fileSelectedName.textContent = f.name;
+      fileSelected.classList.add('show');
+    }
+  });
+
+  // ── Loading animation ────────────────────────────────────────────────────
+  function animateLoadingSteps() {
+    const steps = ['step1','step2','step3','step4'];
+    let i = 0;
+    const int = setInterval(() => {
+      if (i > 0) document.getElementById(steps[i-1]).classList.replace('active','done');
+      if (i < steps.length) {
+        document.getElementById(steps[i]).classList.add('active');
+        i++;
+      } else {
+        clearInterval(int);
+      }
+    }, 900);
+    return int;
+  }
+
+  function resetLoadingSteps() {
+    ['step1','step2','step3','step4'].forEach(s => {
+      const el = document.getElementById(s);
+      el.classList.remove('active','done');
+    });
+  }
+
+  // ── Main Analysis Function ────────────────────────────────────────────────
+  async function analyzeDocument() {
+    const textInput = document.getElementById('textInput').value.trim();
+    const age = document.getElementById('ageInput').value;
+    const language = document.getElementById('langSelect').value;
+    const errorBox = document.getElementById('errorBox');
+    const btn = document.getElementById('analyzeBtn');
+
+    // Validate
+    if (!fileInput.files[0] && !textInput) {
+      showError('Please upload a document or paste text to analyze.');
+      return;
+    }
+
+    errorBox.classList.remove('show');
+    btn.disabled = true;
+    btn.textContent = 'Analyzing…';
+
+    // Show loading
+    document.getElementById('loadingPanel').classList.add('show');
+    document.getElementById('resultsPanel').classList.remove('show');
+    resetLoadingSteps();
+    const stepInterval = animateLoadingSteps();
+
+    try {
+      const formData = new FormData();
+      if (fileInput.files[0]) {
+        formData.append('document', fileInput.files[0]);
+      } else {
+        formData.append('textInput', textInput);
+      }
+      if (age) formData.append('age', age);
+      formData.append('language', language);
+
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      clearInterval(stepInterval);
+
+      if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed');
+
+      renderResults(data);
+
+    } catch (err) {
+      clearInterval(stepInterval);
+      document.getElementById('loadingPanel').classList.remove('show');
+      showError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🔍 Analyze My Document';
+    }
+  }
+
+  // ── Render Results ────────────────────────────────────────────────────────
+  function renderResults(data) {
+    const { analysis, processingTime, recordId } = data;
+
+    // One-line summary
+    document.getElementById('oneSummary').textContent = analysis.oneLineSummary || '—';
+
+    // Diagnosis
+    const diag = analysis.plainDiagnosis || {};
+    document.getElementById('diagCondition').textContent = diag.condition || '';
+    document.getElementById('diagText').textContent = diag.explanation || '';
+    document.getElementById('compareOriginal').textContent = diag.condition || '—';
+    document.getElementById('compareSimplified').textContent = diag.explanation || '—';
+
+    // Medication table
+    const tbody = document.getElementById('medTableBody');
+    tbody.innerHTML = '';
+    const meds = analysis.medicationSchedule || [];
+    if (meds.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:1.5rem;">No medications found</td></tr>';
+    } else {
+      meds.forEach(m => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="med-name">${esc(m.name)}</span></td>
+          <td>${esc(m.dosage)}</td>
+          <td>${esc(m.timing)}</td>
+          <td>${esc(m.frequency)}</td>
+          <td>${esc(m.duration)}</td>
+          <td>${esc(m.instructions)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Side effects
+    const alertList = document.getElementById('alertList');
+    alertList.innerHTML = '';
+    const sideEffects = analysis.sideEffectAlerts || {};
+    (sideEffects.items || []).forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'alert-item';
+      div.innerHTML = `<div class="alert-dot">${i+1}</div><div class="alert-text">${esc(item)}</div>`;
+      alertList.appendChild(div);
+    });
+    if (sideEffects.whenToCallDoctor) {
+      document.getElementById('doctorCallText').textContent = sideEffects.whenToCallDoctor;
+      document.getElementById('doctorCall').style.display = 'flex';
+    }
+
+    // Follow-up checklist
+    const checklistBody = document.getElementById('checklistBody');
+    checklistBody.innerHTML = '';
+    const fu = analysis.followUpChecklist || {};
+    renderChecklistSection(checklistBody, '🧪 Tests Ordered', fu.tests || []);
+    renderChecklistSection(checklistBody, '🥗 Diet Restrictions', fu.diet || []);
+    renderChecklistSection(checklistBody, '🚶 Activity Limits', fu.activity || []);
+
+    // Meta
+    document.getElementById('processMeta').innerHTML = `
+      <span class="meta-item">⚡ Processed in ${processingTime}ms</span>
+      <span class="meta-item">🆔 Record: ${recordId.slice(0,8)}</span>
+      <span class="meta-item">📊 Saved to XLSX database</span>
+    `;
+
+    document.getElementById('loadingPanel').classList.remove('show');
+    document.getElementById('resultsPanel').classList.add('show');
+    document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderChecklistSection(container, title, items) {
+    if (!items.length) return;
+    const section = document.createElement('div');
+    section.className = 'checklist-section';
+    section.innerHTML = `<div class="checklist-title">${title}</div>`;
+    const list = document.createElement('div');
+    list.className = 'checklist-items';
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'checklist-item';
+      div.innerHTML = `
+        <div class="checkbox" onclick="toggleCheck(this)"></div>
+        <span>${esc(item)}</span>
+      `;
+      list.appendChild(div);
+    });
+    section.appendChild(list);
+    container.appendChild(section);
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    el.textContent = el.classList.contains('checked') ? '✓' : '';
+  }
+
+  function showError(msg) {
+    const errorBox = document.getElementById('errorBox');
+    errorBox.textContent = '⚠️ ' + msg;
+    errorBox.classList.add('show');
+  }
+
+  function esc(str) {
+    if (!str) return '—';
+    return str.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Enter key support ─────────────────────────────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') analyzeDocument();
+  });
+</script>
+</body>
+</html>
